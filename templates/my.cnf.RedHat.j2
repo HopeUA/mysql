@@ -27,7 +27,14 @@ binlog_ignore_db        = {{ i.name }}
 {% endif %}
 
 [mysqld_safe]
+{% if ansible_distribution_major_version == '7' %}
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
+
+!includedir /etc/my.cnf.d/
+{% else %}
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 
 !includedir /etc/mysql/conf.d/
+{% endif %}
